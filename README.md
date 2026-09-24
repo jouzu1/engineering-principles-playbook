@@ -1,4 +1,4 @@
-﻿# Engineering principles playbook
+# Engineering principles playbook
 
 Playbook ini berisi kompendium prinsip rekayasa perangkat lunak, hukum komputasi, tangga karir engineering, kumpulan system prompt per role, serta panduan adaptasi domain industri.
 
@@ -16,7 +16,7 @@ Kerangka kerja ini memisahkan hal-hal yang berlaku abadi di semua sistem komputa
 ## Struktur dokumen
 
 1. [engineering_principles_by_role.md](engineering_principles_by_role.md)
-   Fondasi filosofis, hukum komputasi (Little's Law, Amdahl's Law, CAP, Conway's Law, Gall's Law), batas arsitektur, dan prinsip operasional baku dari level Junior sampai Fellow di IC Track, serta Tech Lead sampai CTO di Management Track.
+   Fondasi filosofis, hukum komputasi (Little's Law, Amdahl's Law, CAP, Conway's Law, Gall's Law, Hyrum's Law), batas arsitektur, dan prinsip operasional baku dari level Junior sampai Fellow di IC Track, serta Tech Lead sampai CTO di Management Track.
 
 2. [role_system_prompts.md](role_system_prompts.md)
    Kumpulan 12 template system prompt siap pakai untuk AI assistant, persona review PR, atau panduan evaluasi diri. Setiap prompt mengunci scope of influence, prinsip wajib, batasan teknis, dan hal-hal yang wajib ditolak untuk setiap level peran.

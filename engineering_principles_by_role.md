@@ -85,6 +85,7 @@ Prinsip operasional:
 4. Standar observabilitas: gunakan structured JSON logging dengan trace_id, pantau metrik berbasis rate, error, duration (RED), serta pisahkan healthcheck liveness dan readiness.
 5. Pola expand-contract: migrasi database tanpa downtime dilakukan bertahap (tambah skema baru, dual-write, migrasi data lama, alihkan pembacaan, hapus skema lama).
 6. Prioritas teknologi stabil: gunakan teknologi dan library yang sudah teruji pola kegagalannya di lingkungan produksi dibanding teknologi baru yang belum matang.
+7. Hyrum's Law (Hukum antarmuka implisit): dengan jumlah pengguna API yang cukup banyak, semua perilaku sistem yang dapat diamati (observable behavior) akan diandalkan oleh seseorang. Sadari bahwa perubahan format pesan error, urutan default data tanpa sorting eksplisit, atau durasi respons dapat merusak integrasi client secara tak terduga.
 
 Pantangan:
 * Menangani insiden sendirian tanpa menulis post-mortem dan tanpa membagikan perbaikan pencegahannya ke tim.
@@ -231,7 +232,7 @@ Prinsip operasional:
 |---|---|---|---|---|
 | Junior IC | 1 Task | Zero-trust boundary, KISS | Kebenaran logika kode, kelulusan test | Diam berjam-jam saat terhalang masalah, salin kode tanpa paham |
 | Mid IC | 1 Fitur penuh | Idempotensi, isolasi konkurensi | Pengiriman fitur otonom tanpa regresi | Kebocoran skema internal, overengineering prematur |
-| Senior IC | 1 Tim / 1 Sistem | Fallacies of dist. computing, Little's Law | Uptime sistem, MTTR, kualitas review kode | Menangani insiden sendirian tanpa dokumentasi, dogmatisme gaya kode |
+| Senior IC | 1 Tim / 1 Sistem | Fallacies of dist. computing, Little's Law, Hyrum's Law | Uptime sistem, MTTR, kualitas review kode | Menangani insiden sendirian tanpa dokumentasi, dogmatisme gaya kode |
 | Staff IC | Multi-tim | Conway's Law, Gall's Law, Reversibilitas | Kecepatan delivery lintas tim, adopsi ADR | Desain arsitektur menara gading, pemecahan servis prematur |
 | Principal IC | 1 Business unit | CAP/PACELC, waktu kausal, FinOps | Efisiensi biaya komputasi, ketahanan bencana | Terjebak sunk-cost fallacy, membangun platform tanpa kalkulasi biaya |
 | Distinguished | Seluruh korporasi | Kompleksitas komputasi, teori informasi | Penyelesaian masalah tak berstandar | Riset yang tidak terhubung dengan daya saing bisnis |
