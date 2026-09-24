@@ -24,12 +24,15 @@ Kerangka kerja ini memisahkan hal-hal yang berlaku abadi di semua sistem komputa
 3. [domain_plugin_guide.md](domain_plugin_guide.md)
    Panduan praktis untuk memasang lapisan aturan 10% industri tertentu ke atas 90% sasis universal. Mencakup parameter evaluasi (RPO/RTO, SLA latensi, model konsistensi, auditabilitas) serta katalog plugin untuk FinTech, HealthTech, Gaming, AdTech, E-Commerce, dan GovTech.
 
+4. [threat_modeling_and_ai_security.md](threat_modeling_and_ai_security.md)
+   Modul keamanan formal dan pemodelan ancaman. Berisi Prinsip Kerckhoffs, 10 Immutable Laws of Security (Microsoft), proses 4 langkah Adam Shostack, matriks mitigasi STRIDE klasik, mitigasi STRIDE-AI, serta Agent Trust Boundary Model (AakashX) untuk arsitektur AI Agent yang aman.
+
 ---
 
 ## Cara penggunaan
 
 ### 1. Untuk pengembangan harian
-Gunakan checklist pada peran Junior dan Mid-Level di `engineering_principles_by_role.md` saat merancang database dan endpoint API. Pastikan kodingan memenuhi proteksi boundary, idempotensi, dan isolasi konkurensi.
+Gunakan checklist pada peran Junior dan Mid-Level di `engineering_principles_by_role.md` saat merancang database dan endpoint API. Pastikan kodingan memenuhi proteksi boundary, idempotensi, isolasi konkurensi, dan The Beyonce Rule.
 
 ### 2. Untuk konfigurasi AI coding assistant
 Salin template dari `role_system_prompts.md` ke dalam instruksi sistem (seperti Cursor rules, Claude Project, atau Copilot instructions) sesuai kebutuhan:
@@ -39,3 +42,6 @@ Salin template dari `role_system_prompts.md` ke dalam instruksi sistem (seperti 
 
 ### 3. Untuk adaptasi industri baru
 Ketika masuk ke industri dengan regulasi khusus, buka `domain_plugin_guide.md`, identifikasi lima parameter kuncinya, lalu tempelkan template domain plugin ke bagian akhir dari system prompt yang kamu gunakan.
+
+### 4. Untuk audit keamanan dan arsitektur AI
+Gunakan `threat_modeling_and_ai_security.md` saat merancang backend kritis atau mengintegrasikan AI Agent. Terapkan pemisahan 4 batas kepercayaan (Instruction, Data, Tool, Action) dengan prinsip bahwa model probabilistik boleh mengusulkan, namun runtime deterministik yang mengeksekusi.

@@ -44,6 +44,8 @@ Prinsip operasional:
 3. Enkapsulasi: fungsi luar tidak perlu tahu implementasi internal suatu modul. Jaga data privat tetap tertutup.
 4. Penanganan error eksplisit: dilarang menulis blok catch kosong. Tangani error secara terencana atau teruskan ke handler terpusat.
 5. Pengujian berbasis perilaku: unit test harus memverifikasi output berdasarkan variasi input (termasuk input kosong, null, atau nilai batas), bukan menguji variabel internal.
+6. The Beyonce Rule: if you liked it, you should have put a test on it. Jika suatu perilaku sistem tidak dilindungi oleh automated test, perilaku tersebut dianggap tidak terjamin dan bebas diubah oleh developer lain.
+7. Shifting left: temukan bug, masalah keamanan, dan anomali logika pada siklus paling awal (saat menulis kode lokal dan di pipeline CI). Biaya perbaikan di tahap awal jauh lebih murah dibanding perbaikan saat sudah berada di production.
 
 Pantangan:
 * Menyalin kode dari luar tanpa memahami alurnya baris per baris.
@@ -86,6 +88,7 @@ Prinsip operasional:
 5. Pola expand-contract: migrasi database tanpa downtime dilakukan bertahap (tambah skema baru, dual-write, migrasi data lama, alihkan pembacaan, hapus skema lama).
 6. Prioritas teknologi stabil: gunakan teknologi dan library yang sudah teruji pola kegagalannya di lingkungan produksi dibanding teknologi baru yang belum matang.
 7. Hyrum's Law (Hukum antarmuka implisit): dengan jumlah pengguna API yang cukup banyak, semua perilaku sistem yang dapat diamati (observable behavior) akan diandalkan oleh seseorang. Sadari bahwa perubahan format pesan error, urutan default data tanpa sorting eksplisit, atau durasi respons dapat merusak integrasi client secara tak terduga.
+8. Standar Code Review 3-Bit (Google): evaluasi review PR harus berlandaskan tiga dimensi objektif: Correctness (kebenaran fungsi logika), Ownership (kesesuaian batas domain dan tanggung jawab modul), serta Readability (keterbacaan dan kepatuhan terhadap idiom standar tim).
 
 Pantangan:
 * Menangani insiden sendirian tanpa menulis post-mortem dan tanpa membagikan perbaikan pencegahannya ke tim.
@@ -105,6 +108,8 @@ Prinsip operasional:
 3. Reversibilitas keputusan: bedakan keputusan yang sulit dibatalkan (one-way doors) dan keputusan yang mudah dibatalkan (two-way doors). Keputusan one-way doors membutuhkan kajian tertulis mendalam melalui RFC. Keputusan two-way doors diselesaikan dengan cepat.
 4. Budaya dokumentasi teknis: perubahan arsitektur lintas tim wajib memiliki catatan Architecture Decision Record (ADR) yang memuat konteks, alternatif yang ditolak, dan konsekuensi operasional.
 5. Pencegahan overengineering: tolak adopsi teknologi kompleks yang tidak didukung oleh kebutuhan skala nyata.
+6. Software engineering vs programming (Titus Winters): programming adalah kegiatan menulis kode; software engineering adalah programming yang dikalikan dengan dimensi waktu, skala organisasi, dan kompromi biaya. Perlakukan kode sebagai beban pemeliharaan (liability), bukan sekadar aset.
+7. One-version rule: terapkan kebijakan satu versi aktif untuk setiap dependensi pihak ketiga di tingkat organisasi guna mencegah dependency hell dan konflik versi transitif.
 
 Pantangan:
 * Menghasilkan dokumen arsitektur tanpa memahami kendala teknis implementasi di lapangan.
