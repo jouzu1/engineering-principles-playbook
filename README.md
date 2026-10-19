@@ -33,17 +33,20 @@ Kerangka kerja ini memisahkan hal-hal yang berlaku abadi di semua sistem komputa
 6. [security_role_system_prompts.md](security_role_system_prompts.md)
    Kumpulan 6 template system prompt spesialis keamanan siber (AppSec Engineer, Cloud SecOps Architect, Red Team Pentester, Blue Team Incident Responder, Product Security Lead, dan CISO Governance Director) untuk AI coding assistant, security review, atau simulasi audit.
 
+7. [distributed_systems_and_resilience_canon.md](distributed_systems_and_resilience_canon.md)
+   Kompendium rekayasa sistem terdistribusi, konsistensi data, dan pola ketahanan skala tinggi. Memuat Teorema CAP/PACELC/FLP, penanganan dual-write anomaly dengan Transactional Outbox Pattern dan CDC, mitigasi thundering herd via Exponential Backoff dengan Full Jitter, kontrol saturasi antrean melalui load shedding dan backpressure CoDel, orkestrasi Saga transaksi kompensasi, konsistensi read-after-write pada topologi read-replica, kuorum konsensus Raft/Paxos, serta matriks mitigasi insiden produksi (3 AM incident cheat sheet).
+
 ---
 
 ## Cara penggunaan
 
 ### 1. Untuk pengembangan harian
-Gunakan checklist pada peran Junior dan Mid-Level di `engineering_principles_by_role.md` saat merancang database dan endpoint API. Pastikan kodingan memenuhi proteksi boundary, idempotensi, isolasi konkurensi, dan The Beyonce Rule.
+Gunakan checklist pada peran Junior dan Mid-Level di `engineering_principles_by_role.md` saat merancang database dan endpoint API. Pastikan kodingan memenuhi proteksi boundary, idempotensi, isolasi konkurensi, anti dual-write outbox, dan The Beyonce Rule.
 
 ### 2. Untuk konfigurasi AI coding assistant
 Salin template dari `role_system_prompts.md` ke dalam instruksi sistem (seperti Cursor rules, Claude Project, atau Copilot instructions) sesuai kebutuhan:
 * Gunakan prompt Mid-Level untuk eksekusi fitur dan pembuatan endpoint.
-* Gunakan prompt Senior untuk code review, failure analysis, dan observabilitas.
+* Gunakan prompt Senior untuk code review, failure analysis, mitigasi retry storm, dan observabilitas.
 * Gunakan prompt Staff untuk penyusunan dokumen RFC atau evaluasi arsitektur lintas servis.
 
 ### 3. Untuk simulasi keamanan dan persiapan penetration testing
@@ -57,3 +60,6 @@ Ketika masuk ke industri dengan regulasi khusus, buka `domain_plugin_guide.md`, 
 
 ### 5. Untuk audit arsitektur AI Agent
 Gunakan `threat_modeling_and_ai_security.md` saat merancang backend kritis atau mengintegrasikan AI Agent. Terapkan pemisahan 4 batas kepercayaan (Instruction, Data, Tool, Action) dengan prinsip bahwa model probabilistik boleh mengusulkan, namun runtime deterministik yang mengeksekusi.
+
+### 6. Untuk desain sistem terdistribusi dan mitigasi insiden
+Gunakan `distributed_systems_and_resilience_canon.md` saat merancang arsitektur microservices, integrasi message broker, antrean asynchronous, atau saat melakukan triage insiden produksi di jam kritis. Terapkan Transactional Outbox untuk eliminasi data loss, pasang Full Jitter pada setiap network retry, dan rujuk matriks failure mode sebagai panduan root cause analysis instan.

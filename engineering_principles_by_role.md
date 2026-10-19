@@ -66,11 +66,14 @@ Prinsip operasional:
 3. Isolasi konkurensi: mutasi data sensitif seperti saldo atau stok wajib diselesaikan secara atomik di level database (misal: query update berkondisi) atau locking eksplisit. Jangan menghitung nilai mutasi di memori aplikasi.
 4. Batas timeout wajib: setiap pemanggilan I/O keluar (database pool, HTTP client, API pihak ketiga) wajib memiliki batas timeout eksplisit.
 5. Kompatibilitas kontrak API: pertahankan kompatibilitas field response yang masih digunakan oleh client aktif.
+6. Anti Dual-Write Anomaly (Transactional Outbox): dilarang melakukan dual-write langsung (misal: menyimpan data ke database lokal lalu mem-publish event ke message broker dalam satu pemanggilan aplikasi tanpa transaksi terdistribusi). Gunakan Transactional Outbox Pattern atau Change Data Capture (CDC) agar penulisan database dan pemancaran event bersifat atomik.
+7. Read-After-Write Consistency: sadari adanya replikasi lag pada topologi database primary-replica. Setelah operasi mutasi data, arahkan pembacaan data berikutnya dari user yang sama ke database primary (sticky session / read-your-writes consistency) agar user tidak melihat data usang.
 
 Pantangan:
 * Membiarkan skema internal database bocor langsung ke antarmuka response JSON publik.
 * Mengabaikan kemungkinan adanya dua request konkuren yang tiba pada waktu bersamaan.
 * Membangun framework buatan sendiri di dalam aplikasi untuk fitur yang use case-nya baru ada satu.
+* Menulis langsung ke database dan message broker secara terpisah tanpa jaminan atomisitas (dual-write trap).
 
 #### 3. Senior Engineer
 Scope of influence: 1 tim dan 1 sistem domain.  
@@ -85,14 +88,19 @@ Prinsip operasional:
 2. Teori antrean dan kapasitas (Little's Law): utilisasi sistem harus dijaga di bawah 80%. Waktu proses yang naik sedikit akan melipatgandakan antrean secara eksponensial.
 3. Pengendalian blast radius: kegagalan satu sub-sistem tidak boleh menumbangkan sistem inti. Terapkan circuit breaker, isolasi bulkhead, dan response cadangan.
 4. Standar observabilitas: gunakan structured JSON logging dengan trace_id, pantau metrik berbasis rate, error, duration (RED), serta pisahkan healthcheck liveness dan readiness.
-5. Pola expand-contract: migrasi database tanpa downtime dilakukan bertahap (tambah skema baru, dual-write, migrasi data lama, alihkan pembacaan, hapus skema lama).
+5. Pola expand-contract: migrasi database tanpa downtime dilakukan bertahap (tambah skema baru, dual-write terencana/backfill, alihkan pembacaan, hapus skema lama).
 6. Prioritas teknologi stabil: gunakan teknologi dan library yang sudah teruji pola kegagalannya di lingkungan produksi dibanding teknologi baru yang belum matang.
 7. Hyrum's Law (Hukum antarmuka implisit): dengan jumlah pengguna API yang cukup banyak, semua perilaku sistem yang dapat diamati (observable behavior) akan diandalkan oleh seseorang. Sadari bahwa perubahan format pesan error, urutan default data tanpa sorting eksplisit, atau durasi respons dapat merusak integrasi client secara tak terduga.
 8. Standar Code Review 3-Bit (Google): evaluasi review PR harus berlandaskan tiga dimensi objektif: Correctness (kebenaran fungsi logika), Ownership (kesesuaian batas domain dan tanggung jawab modul), serta Readability (keterbacaan dan kepatuhan terhadap idiom standar tim).
+9. Retry dengan Exponential Backoff dan Full Jitter: retry tanpa jitter akan memicu gelombang thundering herd yang menumbangkan service hilir saat baru mulai pulih. Wajib tambahkan random jitter pada interval backoff: `sleep = random(0, min(cap, base * 2^attempt))`.
+10. Backpressure dan Load Shedding: ketika sistem mengalami saturasi, memanjangkan antrean memori akan berujung pada Out-Of-Memory (OOM) atau thread starvation. Terapkan load shedding proaktif (HTTP 429 / 503) dan mekanisme backpressure untuk membuang beban non-esensial dan menyelamatkan fungsi kritis sistem.
+11. Saga Pattern dan Transaksi Kompensasi: hindari Two-Phase Commit (2PC) yang memblokir resources pada arsitektur microservices. Gunakan Saga Pattern (orchestrated atau choreographed) dengan aksi kompensasi balik (compensating transactions) yang teruji secara otomatis saat alur transaksi terdistribusi gagal di tengah jalan.
 
 Pantangan:
 * Menangani insiden sendirian tanpa menulis post-mortem dan tanpa membagikan perbaikan pencegahannya ke tim.
 * Menggunakan review PR untuk memaksakan gaya sintaks personal daripada fokus pada kebenaran logika, keamanan, dan performa.
+* Menjalankan retry network call secara agresif tanpa batas maksimal (unbounded retry) dan tanpa jitter.
+* Membiarkan antrean request memanjang tanpa proteksi backpressure dan load shedding.
 
 #### 4. Staff Engineer / Senior Staff
 Scope of influence: multi-tim dan domain teknis lintas skuad.  
