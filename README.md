@@ -36,6 +36,9 @@ Kerangka kerja ini memisahkan hal-hal yang berlaku abadi di semua sistem komputa
 7. [distributed_systems_and_resilience_canon.md](distributed_systems_and_resilience_canon.md)
    Kompendium rekayasa sistem terdistribusi, konsistensi data, dan pola ketahanan skala tinggi. Memuat Teorema CAP/PACELC/FLP, penanganan dual-write anomaly dengan Transactional Outbox Pattern dan CDC, mitigasi thundering herd via Exponential Backoff dengan Full Jitter, kontrol saturasi antrean melalui load shedding dan backpressure CoDel, orkestrasi Saga transaksi kompensasi, konsistensi read-after-write pada topologi read-replica, kuorum konsensus Raft/Paxos, serta matriks mitigasi insiden produksi (3 AM incident cheat sheet).
 
+8. [financial_systems_architect_system_prompt.md](financial_systems_architect_system_prompt.md)
+   Standar arsitektur dan template system prompt spesialis Principal Financial Systems Architect & Payment Infrastructure Engineer. Mengunci prinsip zero-tolerance financial discrepancy, dual-temporal accounting (`created_at_utc` vs `business_settlement_date`), two-phase balance reservation (earmarking), uncertainty-aware reaper, terminal state immunity, pre-reversal tombstone (ghost reversal defense), sub-account striping pada hot accounts, dan two-factor anti-replay verification.
+
 ---
 
 ## Cara penggunaan
@@ -63,3 +66,6 @@ Gunakan `threat_modeling_and_ai_security.md` saat merancang backend kritis atau 
 
 ### 6. Untuk desain sistem terdistribusi dan mitigasi insiden
 Gunakan `distributed_systems_and_resilience_canon.md` saat merancang arsitektur microservices, integrasi message broker, antrean asynchronous, atau saat melakukan triage insiden produksi di jam kritis. Terapkan Transactional Outbox untuk eliminasi data loss, pasang Full Jitter pada setiap network retry, dan rujuk matriks failure mode sebagai panduan root cause analysis instan.
+
+### 7. Untuk perancangan Core Banking, Payment Gateway, dan Switching Engine
+Gunakan `financial_systems_architect_system_prompt.md` saat merancang mutasi dana, akuntansi buku besar (ledger), integrasi acquirer/switching, atau penanganan rekonsiliasi settlement. Mencegah bug fatal seperti in-flight double spend, lock wait contention pada merchant besar, anomali cut-off tengah malam, serta status transaksi nyangkut.

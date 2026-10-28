@@ -43,11 +43,13 @@ Setiap kali berpindah industri atau menangani produk baru, identifikasi lima par
 
 ### A. Plugin FinTech dan perbankan
 Karakteristik:
-* Mengutamakan kebenaran data mutlak di atas performa.
-* Penerapan akuntansi double-entry: setiap mutasi wajib memiliki baris debit dan kredit yang seimbang.
+* Mengutamakan kebenaran data mutlak di atas performa (*zero-tolerance financial discrepancy*).
+* Penerapan akuntansi double-entry dan dual-temporal accounting (`created_at_utc` vs `business_settlement_date`).
 * Log audit bersifat append-only: data audit tidak boleh dapat di-update atau di-delete.
-* Kepatuhan standar PCI-DSS untuk data kartu dan regulasi otoritas moneter lokal.
-* Idempotency key wajib diterapkan di seluruh endpoint transaksi.
+* Kepatuhan standar PCI-DSS untuk data kartu dan regulasi otoritas moneter lokal (seperti SNAP BI / QRIS).
+* Idempotency key wajib diterapkan di seluruh endpoint transaksi dengan multi-tier deduplication.
+* Two-phase balance reservation (earmarking) untuk mengisolasi batas transaksi database dari panggilan I/O jaringan pihak ketiga.
+* Rujukan Blueprint Penuh: Gunakan dokumen [financial_systems_architect_system_prompt.md](financial_systems_architect_system_prompt.md) untuk konfigurasi sistem prompt AI dan standar arsitektur perbankan/switching tingkat produksi.
 
 ### B. Plugin HealthTech dan data medis
 Karakteristik:
